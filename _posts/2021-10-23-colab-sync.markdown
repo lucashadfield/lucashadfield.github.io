@@ -9,7 +9,7 @@ This allows you to work on a package locally in your IDE of choice and have it a
 Within a couple of seconds of making a change locally, your changes are auto-reloaded into your running notebook without having to re-import anything.
 This example is focusing on using a python package but that's not a requirement. Ultimately we're just syncing a local directory to a remote one so this could be used in various ways, eg. syncing config files that you want your notebook code to pick up.
 
-<video src="https://user-images.githubusercontent.com/12473153/138543324-6b3035cc-ee8a-4dd5-a375-797ab9778e4a.mp4" controls="controls" style="max-width: 730px;">
+<video src="https://user-images.githubusercontent.com/12473153/138543324-6b3035cc-ee8a-4dd5-a375-797ab9778e4a.mp4" controls="controls" style="width: 100%;">
 </video>
 
 
