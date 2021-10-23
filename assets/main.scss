@@ -1,0 +1,45 @@
+---
+---
+
+
+@import "minima";
+
+/** Basic styling */
+body {  font: 400 16px/1.5 Times New Roman, serif; background-color: #fdfcf9; color: #262626 }
+
+/** Headings */
+h1, h2, h3, h4, h5, h6 { font-weight: 400; color: #3261a6; } //#fdfcf9; color: #c2331b;
+
+/** Code formatting */
+pre, code { font-size: 12px; border: 1px solid #efefef; border-radius: 3px; }
+code { padding: 1px 1px; border: 0; background-color: #fdfcf9; color: #c2331b; } // code outside the block
+pre { padding: 8px 12px; overflow-x: auto; }
+pre > code { border: 0; padding-right: 0; padding-left: 0; background-color: #ffffff; color: #262626; } // code inside the block
+
+/** Posts */
+.post-title { font-size: 40px; letter-spacing: -1px; line-height: 1; color: #262626}
+
+/** Syntax highlighting styles */
+.highlighter-rouge .highlight { background: #ffffff; } // code block background
+.highlight .err { color: #262626; background-color: #ffffff; }
+
+
+
+a:link {
+  color: #000000;
+}
+
+/* visited link */
+a:visited {
+  color: #000000;
+}
+
+/* mouse over link */
+a:hover {
+  color: #000000;
+}
+
+/* selected link */
+a:active {
+  color: #000000;
+}
