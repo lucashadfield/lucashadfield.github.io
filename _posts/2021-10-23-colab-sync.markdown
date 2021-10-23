@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Syncing local python packages to Google Colab"
-date:   2021-10-23 09:00:00 +1100
+date:   2021-10-23 12:00:00 +1100
 ---
 
 This post goes through how to set up a one-way sync of a local python package to a Google Colab instance using `cloudflared`, `lsyncd` and some jupyter magic.
