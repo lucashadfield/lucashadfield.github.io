@@ -8,5 +8,3 @@ I'm Lucas, an ML engineer based in Sydney. This is a space for me to write about
 
 You can have a look at some of my past projects on my [github](https://github.com/lucashadfield).
 
-Contact me at `lucas@hadfield.dev`
-
