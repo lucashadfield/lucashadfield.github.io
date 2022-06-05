@@ -23,8 +23,6 @@ pre > code { border: 0; padding-right: 0; padding-left: 0; background-color: #ff
 .highlighter-rouge .highlight { background: #ffffff; } // code block background
 .highlight .err { color: #262626; background-color: #ffffff; }
 
-
-
 a:link {
   color: #3261a6;
 }
@@ -42,4 +40,36 @@ a:hover {
 /* selected link */
 a:active {
   color: #3261a6;
+}
+
+.site-title:link {
+  color: #262626
+}
+
+.site-title:visited {
+  color: #262626;
+}
+
+.site-title:hover {
+  color: #262626;
+}
+
+.site-title:active {
+  color: #262626;
+}
+
+.post-link:link {
+  color: #262626
+}
+
+.post-link:visited {
+  color: #262626;
+}
+
+.post-link:hover {
+  color: #262626;
+}
+
+.post-link:active {
+  color: #262626;
 }
