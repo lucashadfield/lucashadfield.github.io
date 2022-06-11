@@ -20,7 +20,7 @@ I've had this solution running daily for about 4 months now and it's proved to b
 This was similar to the original post, I want to be able to programmatically raise the desk by shorting the 3rd and 7th pin on the control panel to trigger the `2` preset. For this I chose to use an [optocoupler](https://core-electronics.com.au/optocoupler-1-channel-ps2501-1.html) instead of a relay:
 
 {:refdef: style="text-align: center;"}
-![Circuit to trigger desk with a raspberry pi](/assets/2022-06-05-autodesk-circuit.png)
+![Circuit to trigger desk with a raspberry pi](/assets/2022-06-05_autodesk-circuit.png)
 {: refdef}
 
 On the raspberry pi, I could then easily trigger the desk with
