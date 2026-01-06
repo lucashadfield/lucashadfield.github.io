@@ -1,0 +1,15 @@
+/* Title font: theme hardcodes 'athelas' (serif), override to sans-serif */
+.athelas {
+  font-family: avenir, 'avenir next', helvetica, arial, sans-serif;
+}
+
+/* Post body size: theme uses f4 (1.25rem), match homepage summary f5 (1rem) */
+article .nested-copy-line-height.f4 {
+  font-size: 1rem;
+}
+
+/* Inline code: reduce size to match body text better */
+code:not(pre code) {
+  font-size: 0.875em;
+}
+
