@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Hacking a standing desk to raise for meetings | blog.hadfield.dev</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Inspired by this post and noticing that my standing desk seemed to have the same control panel, I wanted to do something similar. One thing I wanted to change though is when the desk should be triggered to raise. In that post the author added a random interval of 45 to 60 minutes. Instead I wanted to stand only for my meetings. I&rsquo;ve found that I can&rsquo;t stand when I&rsquo;m actually trying to get focused work done, and having my desk randomly raise and break my concentration when I didn&rsquo;t expect it to did not sound appealing.">
+    <meta name="generator" content="Hugo 0.154.2">
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+    
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="http://localhost:1313/posts/2022-06-05-autodesk/">
+    
+
+    <meta property="og:url" content="http://localhost:1313/posts/2022-06-05-autodesk/">
+  <meta property="og:site_name" content="blog.hadfield.dev">
+  <meta property="og:title" content="Hacking a standing desk to raise for meetings">
+  <meta property="og:description" content="Inspired by this post and noticing that my standing desk seemed to have the same control panel, I wanted to do something similar. One thing I wanted to change though is when the desk should be triggered to raise. In that post the author added a random interval of 45 to 60 minutes. Instead I wanted to stand only for my meetings. I’ve found that I can’t stand when I’m actually trying to get focused work done, and having my desk randomly raise and break my concentration when I didn’t expect it to did not sound appealing.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2022-06-05T00:00:00+00:00">
+    <meta property="article:modified_time" content="2022-06-05T00:00:00+00:00">
+
+  <meta itemprop="name" content="Hacking a standing desk to raise for meetings">
+  <meta itemprop="description" content="Inspired by this post and noticing that my standing desk seemed to have the same control panel, I wanted to do something similar. One thing I wanted to change though is when the desk should be triggered to raise. In that post the author added a random interval of 45 to 60 minutes. Instead I wanted to stand only for my meetings. I’ve found that I can’t stand when I’m actually trying to get focused work done, and having my desk randomly raise and break my concentration when I didn’t expect it to did not sound appealing.">
+  <meta itemprop="datePublished" content="2022-06-05T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2022-06-05T00:00:00+00:00">
+  <meta itemprop="wordCount" content="582">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Hacking a standing desk to raise for meetings">
+  <meta name="twitter:description" content="Inspired by this post and noticing that my standing desk seemed to have the same control panel, I wanted to do something similar. One thing I wanted to change though is when the desk should be triggered to raise. In that post the author added a random interval of 45 to 60 minutes. Instead I wanted to stand only for my meetings. I’ve found that I can’t stand when I’m actually trying to get focused work done, and having my desk randomly raise and break my concentration when I didn’t expect it to did not sound appealing.">
+
+	
+  </head><body class="ma0 avenir bg-near-white development">
+
+    
+   
+  
+
+  
+  
+  
+  <header class="cover bg-center" style="background-image: url('http://localhost:1313/images/featured.png');">
+    <div class="bg-black-60">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
+      
+        blog.hadfield.dev
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/about/" title="About page">
+              About
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/posts/" title="Posts page">
+              Posts
+            </a>
+          </li>
+          
+        </ul>
+      
+      <div class="ananke-socials"></div>
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv6 ph3 ph4-ns">
+        
+          <div class="f2 f1-l fw2 white-90 mb0 lh-title">Hacking a standing desk to raise for meetings</div>
+          
+        
+      </div>
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        Posts
+      </aside><div id="sharing" class="mt3 ananke-socials"></div>
+<h1 class="f1 athelas mt3 mb1">Hacking a standing desk to raise for meetings</h1>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2022-06-05T00:00:00Z">June 5, 2022</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><p>Inspired by <a href="https://medium.com/@davidkongfilm/how-i-hacked-my-standing-desk-with-a-raspberry-pi-a50ed14c7f6f">this post</a> and noticing that my standing desk seemed to have the same control panel, I wanted to do something similar. One thing I wanted to change though is when the desk should be triggered to raise. In that post the author added a random interval of 45 to 60 minutes. Instead I wanted to stand only for my meetings. I&rsquo;ve found that I can&rsquo;t stand when I&rsquo;m actually trying to get focused work done, and having my desk randomly raise and break my concentration when I didn&rsquo;t expect it to did not sound appealing.</p>
+<p>I&rsquo;ve had this solution running daily for about 4 months now and it&rsquo;s proved to be very reliable. Here&rsquo;s what I did:</p>
+<h1 id="requirements">Requirements</h1>
+<ul>
+<li>Raise desk based on my work calendar
+<ul>
+<li>No additional syncing/maintenance should be required</li>
+<li>Raise just before meeting starts to minimise interruptions</li>
+</ul>
+</li>
+<li>Ignore declined meetings</li>
+<li>Don&rsquo;t raise again for back-to-back meetings
+<ul>
+<li>If I&rsquo;ve manually lowered my desk for a meeting, I don&rsquo;t want it to raise again while I&rsquo;m still in it</li>
+</ul>
+</li>
+</ul>
+<h1 id="circuit">Circuit</h1>
+<p><img src="2022-06-05_autodesk-wiring.png" alt="Solder onto Pins 3 and 7 to trigger preset 2"></p>
+<p>This was similar to the original post, I want to be able to programmatically raise the desk by shorting the 3rd and 7th pin on the control panel to trigger the <code>2</code> preset. For this I chose to use an <a href="https://core-electronics.com.au/optocoupler-1-channel-ps2501-1.html">optocoupler</a> instead of a relay:</p>
+<p><img src="2022-06-05_autodesk-circuit.png" alt="Circuit to trigger desk with a raspberry pi"></p>
+<p>On the raspberry pi, I could then easily trigger the desk with</p>
+<p><code>desk_trigger.py</code></p>
+<pre tabindex="0"><code>import RPi.GPIO as GPIO
+from time import sleep
+
+DESK_PIN = 17
+
+try:
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(DESK_PIN, GPIO.OUT)
+
+    GPIO.output(DESK_PIN, GPIO.HIGH)
+    sleep(0.25)
+    GPIO.output(DESK_PIN, GPIO.LOW)
+finally:
+    GPIO.cleanup()
+</code></pre><h1 id="code">Code</h1>
+<p>Code with basic setup instructions is available here: <a href="https://github.com/lucashadfield/autodesk">lucashadfield/autodesk</a>.</p>
+<p>The basic logic is:</p>
+<ol>
+<li>Use <code>googleapiclient</code> to fetch calendar entries for the day</li>
+<li>Parse and convert to a set of trigger times</li>
+</ol>
+<ul>
+<li>Don&rsquo;t trigger for back-to-back meetings within a time threshold</li>
+</ul>
+<ol start="3">
+<li>Append trigger times to crontab, overwriting previous times</li>
+</ol>
+<p>Every day, cron triggers <code>main.py</code> which generates a set of times the desk should be triggered to raise and writes this to the crontab. For example:</p>
+<pre tabindex="0"><code># Desk Actions
+59 9 6 6 1 python /home/pi/autodesk/desk_trigger.py
+29 13 6 6 1 python /home/pi/autodesk/desk_trigger.py
+</code></pre><h1 id="limitations">Limitations</h1>
+<ul>
+<li>I&rsquo;m using a stripped version of my calendar that the API is querying. This only has start and end &ldquo;busy&rdquo; times for each meeting. Declined meetings will not show, which is expected, but accepted meetings and meetings I haven&rsquo;t responded to will come through the same way. This means that any meeting I haven&rsquo;t explicitly declined by the time my script runs in the morning will be assumed to be accepted and will cause the desk to raise.</li>
+<li>Any meetings added (or declined) during the day will not get picked up. I could fix this by just running the script multiple times per day but this hasn&rsquo;t been common enough to be necessary.</li>
+<li>I don&rsquo;t work from home every day. Having an easy way to disable the script when I&rsquo;m not there would be useful, though it&rsquo;s not a big deal. Google calendar has a feature to mark where you are working from on each day, which I do use but unfortunately this doesn&rsquo;t come through in the stripped version of the calendar that I&rsquo;m querying. If it did, this would probably be a good way to add this logic.</li>
+<li>This is only a one-way solution, I don&rsquo;t have a way to lower the desk automatically. Doing this would probably involve understanding the desk panel circuit in a bit more detail since I&rsquo;ve found only preset <code>2</code> is easy to trigger by shorting a pair of pins.</li>
+</ul>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="http://localhost:1313/" >
+    &copy;  blog.hadfield.dev 2026 
+  </a>
+    <div><div class="ananke-socials"></div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Building a homebrew monitoring dashboard with Grafana &#43; iSpindel | blog.hadfield.dev</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="
+I wanted a better way to track how my homebrews were going. In any brew, the most important metric to keep an eye on is the specific gravity - a measure of density. This will tell you where in the fermentation you&rsquo;re at, how much further it has to go, and what the ABV% is. Checking this value periodically, will let you work out how quickly your brew is fermenting, and when might be a good time to add extra hops, and when it&rsquo;s ready to bottle.">
+    <meta name="generator" content="Hugo 0.154.2">
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+    
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="http://localhost:1313/posts/2022-06-11-brewing-dashboard/">
+    
+
+    <meta property="og:url" content="http://localhost:1313/posts/2022-06-11-brewing-dashboard/">
+  <meta property="og:site_name" content="blog.hadfield.dev">
+  <meta property="og:title" content="Building a homebrew monitoring dashboard with Grafana &#43; iSpindel">
+  <meta property="og:description" content="I wanted a better way to track how my homebrews were going. In any brew, the most important metric to keep an eye on is the specific gravity - a measure of density. This will tell you where in the fermentation you’re at, how much further it has to go, and what the ABV% is. Checking this value periodically, will let you work out how quickly your brew is fermenting, and when might be a good time to add extra hops, and when it’s ready to bottle.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2022-06-11T00:00:00+00:00">
+    <meta property="article:modified_time" content="2022-06-11T00:00:00+00:00">
+
+  <meta itemprop="name" content="Building a homebrew monitoring dashboard with Grafana &#43; iSpindel">
+  <meta itemprop="description" content="I wanted a better way to track how my homebrews were going. In any brew, the most important metric to keep an eye on is the specific gravity - a measure of density. This will tell you where in the fermentation you’re at, how much further it has to go, and what the ABV% is. Checking this value periodically, will let you work out how quickly your brew is fermenting, and when might be a good time to add extra hops, and when it’s ready to bottle.">
+  <meta itemprop="datePublished" content="2022-06-11T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2022-06-11T00:00:00+00:00">
+  <meta itemprop="wordCount" content="890">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Building a homebrew monitoring dashboard with Grafana &#43; iSpindel">
+  <meta name="twitter:description" content="I wanted a better way to track how my homebrews were going. In any brew, the most important metric to keep an eye on is the specific gravity - a measure of density. This will tell you where in the fermentation you’re at, how much further it has to go, and what the ABV% is. Checking this value periodically, will let you work out how quickly your brew is fermenting, and when might be a good time to add extra hops, and when it’s ready to bottle.">
+
+	
+  </head><body class="ma0 avenir bg-near-white development">
+
+    
+   
+  
+
+  
+  
+  
+  <header class="cover bg-center" style="background-image: url('http://localhost:1313/images/featured.png');">
+    <div class="bg-black-60">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
+      
+        blog.hadfield.dev
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/about/" title="About page">
+              About
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/posts/" title="Posts page">
+              Posts
+            </a>
+          </li>
+          
+        </ul>
+      
+      <div class="ananke-socials"></div>
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv6 ph3 ph4-ns">
+        
+          <div class="f2 f1-l fw2 white-90 mb0 lh-title">Building a homebrew monitoring dashboard with Grafana &#43; iSpindel</div>
+          
+        
+      </div>
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        Posts
+      </aside><div id="sharing" class="mt3 ananke-socials"></div>
+<h1 class="f1 athelas mt3 mb1">Building a homebrew monitoring dashboard with Grafana &#43; iSpindel</h1>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2022-06-11T00:00:00Z">June 11, 2022</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><p><img src="2022-06-11_dashboard.png" alt="Dashboard"></p>
+<p>I wanted a better way to track how my homebrews were going. In any brew, the most important metric to keep an eye on is the specific gravity - a measure of density. This will tell you where in the fermentation you&rsquo;re at, how much further it has to go, and what the ABV% is. Checking this value periodically, will let you work out how quickly your brew is fermenting, and when might be a good time to add extra hops, and when it&rsquo;s ready to bottle.</p>
+<p>The analog way to do this is with a hydrometer. Take a small sample of your beer during fermentation, and take a reading off the hydrometer based on the level it floats at. This is fine if you only plan to do this a few times over the course of the fermentation, but any more frequently and it starts to become impractical and wasteful.</p>
+<p>So go digital. There&rsquo;s a few electronic hydrometers for beer brewing that all work on the same basic principle - you float a small water-tight device in your brew while it&rsquo;s fermenting, and it periodically takes measurements and sends them off to a server for you to do whatever you want with. Some of these can be quite expensive and will tend to lock you into a closed-source ecosystem. Fortunately there&rsquo;s an excellent open-source alternative in the <a href="https://www.ispindel.de/docs/README_en.html">iSpindel</a>.</p>
+<p><img src="2022-06-11_ispindel.png" alt="iSpindel"></p>
+<p>This is an entirely open-source design that you can assemble yourself at a fraction of the cost. It uses an ESP8266 and a couple of sensors to measure temperature and specific gravity of whatever it&rsquo;s floating in. The density is calculated by measuring the angle that the iSpindel is floating at. In denser wort at the start of fermentation, it will float more horizontally, and then as the sugars are fermented, and the density of the brew drops, it will float more vertically. Measuring this angle will let us calculate the specific gravity, and the change in specific gravity will in turn lets us work out the ABV%.</p>
+<p>The default setup for the iSpindel is to send data to one of a few options of third party services that have integrations to make getting up and running a quick and easy process. I&rsquo;ve found though that these services tend to be quite limited in how you can choose to visualise the data and typically have limitations on how much data you can send and store without moving to a premium plan. Out of the box, the iSpindel also supports sending data to an influxdb instance, so I looked at putting together my own solution using that and Grafana to do the same thing but in a cheaper and more flexible way.</p>
+<p>For this project I&rsquo;m using a <code>t2.micro</code> aws instance running ubuntu. I&rsquo;ve found this to be plenty for my use case. This might not be the case if I ever add more devices or if anyone other than me was checking the dashboard. I only run the server while a brew is in progress, which typically lasts a week, so the cost only ends up being a few dollars. There&rsquo;s probably ways to bring this cost down further with other providers or hosting the server yourself, for example on a raspberry pi.</p>
+<p>In terms of actual server set up, this was pretty straight forward, I just followed the official guides for installing <a href="https://docs.influxdata.com/influxdb/v2.2/install/?t=Linux">InfluxDB</a> and <a href="https://grafana.com/docs/grafana/latest/installation/debian/">Grafana</a> and then tweaked their configs slightly.</p>
+<h1 id="influxdb-config">InfluxDB config</h1>
+<p>For influxdb, I <a href="https://docs.influxdata.com/influxdb/v1.8/administration/authentication_and_authorization/#user-management-commands">added an admin user</a>, and updated the config to require auth:</p>
+<p><code>/etc/influxdb/influxdb.conf</code></p>
+<pre tabindex="0"><code>[http]
+enabled = true
+bind-address = &#34;:8086&#34;
+auth-enabled = true
+log-enabled=true
+write-tracing = false
+pprof-enabled = true
+pprof-auth-enabled = true
+debug-pprof-enabled = true
+ping-auth-enabled = true
+</code></pre><h1 id="grafana-config">Grafana config</h1>
+<p>And for Grafana, there were a few changes I made on the grafana config to support running on my domain with ssl:</p>
+<p><code>/etc/grafana/grafana.ini</code></p>
+<pre tabindex="0"><code>[server]
+protocol = https
+http_port = 3000
+domain = my.custom.domain.com
+root_url = https://my.custom.domain.com
+cert_file = /path/to/cert.pem
+cert_key = /path/to/key.pem
+</code></pre><h1 id="ispindel-config">iSpindel config</h1>
+<p>On the iSpindel, I configured the following settings in the captive portal configuration screen:</p>
+<pre tabindex="0"><code>Service Type: InfluxDB
+Server Address: &lt;my domain&gt;
+Server Port: 8086
+InfluxDB db: ispindel
+Username: admin
+Password: &lt;password set for inluxdb admin&gt;
+</code></pre><p>Now, whenever the iSpindel runs, it will send its data to my server and it will be stored in the <code>ispindel</code> database in influxdb.</p>
+<h1 id="dashboard-setup">Dashboard setup</h1>
+<p>Setting up a dashboard involves configuring a new data source to point to the influxdb at <code>localhost:8086</code>. Once this is set up, I wrote <code>InfluxQL</code> queries to aggregate each of the metrics that the iSpindel reports into individual dashboard panels. For example, working out the ABV% using the current specific gravity and the starting specific gravity (set up as a dashboard variable):</p>
+<pre tabindex="0"><code>SELECT abs($sg - mean(&#34;gravity&#34;))*1.3125
+FROM &#34;measurements&#34;
+WHERE $timeFilter
+GROUP BY time(30m) fill(null)
+</code></pre><p>And then configuring as a <code>Stat</code> panel:
+<img src="2022-06-11_abv.png" alt="ABV Panel"></p>
+<h1 id="to-do">To Do</h1>
+<p>Some updates I want to incorporate in future:</p>
+<ul>
+<li>Use dynamic dns to automatically update the <code>A record</code> on my domain with the new server IP whenever it boots.</li>
+<li>Automate creating shareable snapshots of the grafana dashboard. Grafana provides an <a href="https://grafana.com/docs/grafana/latest/http_api/snapshot/">API to do this</a>. I would also want to automatically update the <code>CNAME record</code> on my domain to point to the newest snapshot url.</li>
+<li>Alerts. Grafana supports alerts built on top of <code>InfluxQL</code>, so I want to explore sending alerts when my brew is ready to bottle.</li>
+</ul>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="http://localhost:1313/" >
+    &copy;  blog.hadfield.dev 2026 
+  </a>
+    <div><div class="ananke-socials"></div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

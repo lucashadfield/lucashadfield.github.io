@@ -1,0 +1,27 @@
+baseURL = "https://blog.hadfield.dev/"
+languageCode = "en-us"
+title = "blog.hadfield.dev"
+
+[module]
+  [[module.imports]]
+    path = "github.com/theNewDynamic/gohugo-theme-ananke"
+
+[params]
+  featured_image = "/images/featured.png"
+  site_logo = ""
+  description = ""
+
+[params.social]
+  github = "lucashadfield"
+  linkedin = "lucashadfield"
+
+[menu]
+  [[menu.main]]
+    name = "About"
+    url = "/about/"
+    weight = 10
+  [[menu.main]]
+    name = "Posts"
+    url = "/posts/"
+    weight = 20
+

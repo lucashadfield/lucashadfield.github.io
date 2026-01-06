@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on blog.hadfield.dev</title>
+    <link>http://localhost:1313/posts/</link>
+    <description>Recent content in Posts on blog.hadfield.dev</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 11 Jun 2022 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Building a homebrew monitoring dashboard with Grafana &#43; iSpindel</title>
+      <link>http://localhost:1313/posts/2022-06-11-brewing-dashboard/</link>
+      <pubDate>Sat, 11 Jun 2022 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2022-06-11-brewing-dashboard/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;2022-06-11_dashboard.png&#34; alt=&#34;Dashboard&#34;&gt;&lt;/p&gt;&#xA;&lt;p&gt;I wanted a better way to track how my homebrews were going. In any brew, the most important metric to keep an eye on is the specific gravity - a measure of density. This will tell you where in the fermentation you&amp;rsquo;re at, how much further it has to go, and what the ABV% is. Checking this value periodically, will let you work out how quickly your brew is fermenting, and when might be a good time to add extra hops, and when it&amp;rsquo;s ready to bottle.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Hacking a standing desk to raise for meetings</title>
+      <link>http://localhost:1313/posts/2022-06-05-autodesk/</link>
+      <pubDate>Sun, 05 Jun 2022 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2022-06-05-autodesk/</guid>
+      <description>&lt;p&gt;Inspired by &lt;a href=&#34;https://medium.com/@davidkongfilm/how-i-hacked-my-standing-desk-with-a-raspberry-pi-a50ed14c7f6f&#34;&gt;this post&lt;/a&gt; and noticing that my standing desk seemed to have the same control panel, I wanted to do something similar. One thing I wanted to change though is when the desk should be triggered to raise. In that post the author added a random interval of 45 to 60 minutes. Instead I wanted to stand only for my meetings. I&amp;rsquo;ve found that I can&amp;rsquo;t stand when I&amp;rsquo;m actually trying to get focused work done, and having my desk randomly raise and break my concentration when I didn&amp;rsquo;t expect it to did not sound appealing.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Syncing local python packages to Google Colab</title>
+      <link>http://localhost:1313/posts/2021-10-23-colab-sync/</link>
+      <pubDate>Sat, 23 Oct 2021 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/2021-10-23-colab-sync/</guid>
+      <description>&lt;p&gt;This post goes through how to set up a one-way sync of a local python package to a Google Colab instance using &lt;code&gt;cloudflared&lt;/code&gt;, &lt;code&gt;lsyncd&lt;/code&gt; and some jupyter &lt;code&gt;magic&lt;/code&gt;.&#xA;This allows you to work on a package locally in your IDE of choice and have it automatically stay in sync with the version imported into your notebook.&#xA;Within a couple of seconds of making a change locally, your changes are auto-reloaded into your running notebook without having to re-import anything.&#xA;This example is focusing on using a python package but that&amp;rsquo;s not a requirement. Ultimately we&amp;rsquo;re just syncing a local directory to a remote one so this could be used in various ways, eg. syncing config files that you want your notebook code to pick up.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

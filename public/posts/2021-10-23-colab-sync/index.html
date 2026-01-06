@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Syncing local python packages to Google Colab | blog.hadfield.dev</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="This post goes through how to set up a one-way sync of a local python package to a Google Colab instance using cloudflared, lsyncd and some jupyter magic.
+This allows you to work on a package locally in your IDE of choice and have it automatically stay in sync with the version imported into your notebook.
+Within a couple of seconds of making a change locally, your changes are auto-reloaded into your running notebook without having to re-import anything.
+This example is focusing on using a python package but that&rsquo;s not a requirement. Ultimately we&rsquo;re just syncing a local directory to a remote one so this could be used in various ways, eg. syncing config files that you want your notebook code to pick up.">
+    <meta name="generator" content="Hugo 0.154.2">
+    
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+    
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="http://localhost:1313/posts/2021-10-23-colab-sync/">
+    
+
+    <meta property="og:url" content="http://localhost:1313/posts/2021-10-23-colab-sync/">
+  <meta property="og:site_name" content="blog.hadfield.dev">
+  <meta property="og:title" content="Syncing local python packages to Google Colab">
+  <meta property="og:description" content="This post goes through how to set up a one-way sync of a local python package to a Google Colab instance using cloudflared, lsyncd and some jupyter magic. This allows you to work on a package locally in your IDE of choice and have it automatically stay in sync with the version imported into your notebook. Within a couple of seconds of making a change locally, your changes are auto-reloaded into your running notebook without having to re-import anything. This example is focusing on using a python package but that’s not a requirement. Ultimately we’re just syncing a local directory to a remote one so this could be used in various ways, eg. syncing config files that you want your notebook code to pick up.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2021-10-23T00:00:00+00:00">
+    <meta property="article:modified_time" content="2021-10-23T00:00:00+00:00">
+
+  <meta itemprop="name" content="Syncing local python packages to Google Colab">
+  <meta itemprop="description" content="This post goes through how to set up a one-way sync of a local python package to a Google Colab instance using cloudflared, lsyncd and some jupyter magic. This allows you to work on a package locally in your IDE of choice and have it automatically stay in sync with the version imported into your notebook. Within a couple of seconds of making a change locally, your changes are auto-reloaded into your running notebook without having to re-import anything. This example is focusing on using a python package but that’s not a requirement. Ultimately we’re just syncing a local directory to a remote one so this could be used in various ways, eg. syncing config files that you want your notebook code to pick up.">
+  <meta itemprop="datePublished" content="2021-10-23T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2021-10-23T00:00:00+00:00">
+  <meta itemprop="wordCount" content="414">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Syncing local python packages to Google Colab">
+  <meta name="twitter:description" content="This post goes through how to set up a one-way sync of a local python package to a Google Colab instance using cloudflared, lsyncd and some jupyter magic. This allows you to work on a package locally in your IDE of choice and have it automatically stay in sync with the version imported into your notebook. Within a couple of seconds of making a change locally, your changes are auto-reloaded into your running notebook without having to re-import anything. This example is focusing on using a python package but that’s not a requirement. Ultimately we’re just syncing a local directory to a remote one so this could be used in various ways, eg. syncing config files that you want your notebook code to pick up.">
+
+	
+  </head><body class="ma0 avenir bg-near-white development">
+
+    
+   
+  
+
+  
+  
+  
+  <header class="cover bg-center" style="background-image: url('http://localhost:1313/images/featured.png');">
+    <div class="bg-black-60">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
+      
+        blog.hadfield.dev
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/about/" title="About page">
+              About
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/posts/" title="Posts page">
+              Posts
+            </a>
+          </li>
+          
+        </ul>
+      
+      <div class="ananke-socials"></div>
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv6 ph3 ph4-ns">
+        
+          <div class="f2 f1-l fw2 white-90 mb0 lh-title">Syncing local python packages to Google Colab</div>
+          
+        
+      </div>
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        Posts
+      </aside><div id="sharing" class="mt3 ananke-socials"></div>
+<h1 class="f1 athelas mt3 mb1">Syncing local python packages to Google Colab</h1>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2021-10-23T00:00:00Z">October 23, 2021</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><p>This post goes through how to set up a one-way sync of a local python package to a Google Colab instance using <code>cloudflared</code>, <code>lsyncd</code> and some jupyter <code>magic</code>.
+This allows you to work on a package locally in your IDE of choice and have it automatically stay in sync with the version imported into your notebook.
+Within a couple of seconds of making a change locally, your changes are auto-reloaded into your running notebook without having to re-import anything.
+This example is focusing on using a python package but that&rsquo;s not a requirement. Ultimately we&rsquo;re just syncing a local directory to a remote one so this could be used in various ways, eg. syncing config files that you want your notebook code to pick up.</p>
+<video src="https://user-images.githubusercontent.com/12473153/138543324-6b3035cc-ee8a-4dd5-a375-797ab9778e4a.mp4" controls style="width: 100%;"></video>
+
+
+<h1 id="one-time-setup">One time setup</h1>
+<p>You will need to install <code>cloudflared</code> and <code>lsyncd</code> on your <strong>local</strong> machine.</p>
+<ul>
+<li><a href="https://github.com/cloudflare/cloudflared">cloudflared</a> is used to easily set up an ssh tunnel between your machine and the google colab instance</li>
+<li><a href="https://github.com/axkibe/lsyncd">lsyncd</a> is used to detect local file changes and sync them to the target using rsync (in this case with rsyncssh)</li>
+</ul>
+<ol>
+<li>
+<p>Install <code>cloudflared</code> and <code>lsyncd</code>:</p>
+<pre tabindex="0"><code></code></pre></li>
+</ol>
+<p>sudo apt-get install cloudflared lsyncd</p>
+<pre tabindex="0"><code>
+ Refer to the project github pages for alternative installation options.
+
+2. Next add this to your `~/.ssh/config`
+```shell
+Host *.trycloudflare.com
+    HostName %h
+    User root
+    Port 22
+    ProxyCommand /usr/local/bin/cloudflared access ssh --hostname %h
+</code></pre><p>Replace the <code>/usr/local/bin/cloudflared</code> with the absolute path to <code>cloudflared</code> if installed elsewhere.</p>
+<h1 id="on-each-notebook-run">On each notebook run</h1>
+<p>Each time you run a notebook, you will need to set up cloudflared on that machine. Thankfully, <a href="https://github.com/WassimBenzarti/colab-ssh">colab-ssh</a> is a package that handles all this for you.</p>
+<ol>
+<li>
+<p>In your <strong>notebook</strong>, simply run:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>pip install colab_ssh <span style="color:#f92672">--</span>upgrade
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> colab_ssh <span style="color:#f92672">import</span> launch_ssh_cloudflared
+</span></span><span style="display:flex;"><span>launch_ssh_cloudflared(password<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;&lt;SSH_PASSWORD_HERE&gt;&#39;</span>)
+</span></span></code></pre></div><p>This will return an ssh command like this:</p>
+<pre tabindex="0"><code>ssh &lt;CLOUDFLARE_PREFIX&gt;.trycloudflare.com
+</code></pre></li>
+<li>
+<p>Next, you&rsquo;ll want to add your ssh key to the remote <code>~/.ssh/authorized_keys</code>. From your <strong>local</strong>, run:</p>
+<pre tabindex="0"><code>ssh-copy-id &lt;CLOUDFLARE_PREFIX&gt;.trycloudflare.com
+</code></pre><p>You should now be able to ssh into the colab instance without a password.</p>
+</li>
+<li>
+<p>Now we can start up lsyncd. You need to specify the source and target directories. From your <strong>local</strong>, run:</p>
+<pre tabindex="0"><code>lsyncd -nodaemon -delay 1 -rsyncssh &lt;SOURCE_DIR&gt; &lt;CLOUDFLARE_PREFIX&gt;.trycloudflare.com /&lt;PACKAGE_NAME&gt;
+</code></pre><p>For example:</p>
+<pre tabindex="0"><code>lsyncd -nodaemon -delay 1 -rsyncssh /home/lucas/repos/demo_package training-eggs-others-criminal.trycloudflare.com /demo_package
+</code></pre></li>
+<li>
+<p>Finally, back in the <strong>notebook</strong>, run:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> sys
+</span></span><span style="display:flex;"><span>sys<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>insert(<span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#39;/&lt;PACKAGE_NAME&gt;&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">%</span>load_ext autoreload
+</span></span><span style="display:flex;"><span><span style="color:#f92672">%</span>autoreload <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#f92672">&lt;</span>PACKAGE_NAME<span style="color:#f92672">&gt;</span>
+</span></span></code></pre></div></li>
+</ol>
+<p>When you import your package into the notebook, it will be pointing at the synced directory.
+Whenever you make changes locally, they are synced to colab, and when you next run a cell, colab will reload the package with all the updates.</p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="http://localhost:1313/" >
+    &copy;  blog.hadfield.dev 2026 
+  </a>
+    <div><div class="ananke-socials"></div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>
