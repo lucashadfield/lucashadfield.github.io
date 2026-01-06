@@ -1,7 +1,6 @@
 ---
-layout: post
-title:  "Hacking a standing desk to raise for meetings"
-date:   2022-06-05 12:00:00 +1000
+title: "Hacking a standing desk to raise for meetings"
+date: 2022-06-05T12:00:00+10:00
 ---
 
 Inspired by [this post](https://medium.com/@davidkongfilm/how-i-hacked-my-standing-desk-with-a-raspberry-pi-a50ed14c7f6f) and noticing that my standing desk seemed to have the same control panel, I wanted to do something similar. One thing I wanted to change though is when the desk should be triggered to raise. In that post the author added a random interval of 45 to 60 minutes. Instead I wanted to stand only for my meetings. I've found that I can't stand when I'm actually trying to get focused work done, and having my desk randomly raise and break my concentration when I didn't expect it to did not sound appealing.
@@ -17,20 +16,18 @@ I've had this solution running daily for about 4 months now and it's proved to b
   - If I've manually lowered my desk for a meeting, I don't want it to raise again while I'm still in it
 
 # Circuit
-{:refdef: style="text-align: center;"}
-![Solder onto Pins 3 and 7 to trigger preset 2](/assets/2022-06-05_autodesk-wiring.png)
-{: refdef}
+
+![Solder onto Pins 3 and 7 to trigger preset 2](2022-06-05_autodesk-wiring.png)
 
 This was similar to the original post, I want to be able to programmatically raise the desk by shorting the 3rd and 7th pin on the control panel to trigger the `2` preset. For this I chose to use an [optocoupler](https://core-electronics.com.au/optocoupler-1-channel-ps2501-1.html) instead of a relay:
 
-{:refdef: style="text-align: center;"}
-![Circuit to trigger desk with a raspberry pi](/assets/2022-06-05_autodesk-circuit.png)
-{: refdef}
+![Circuit to trigger desk with a raspberry pi](2022-06-05_autodesk-circuit.png)
 
 On the raspberry pi, I could then easily trigger the desk with
 
 `desk_trigger.py`
-```
+
+```python
 import RPi.GPIO as GPIO
 from time import sleep
 
@@ -58,7 +55,7 @@ The basic logic is:
 
 Every day, cron triggers `main.py` which generates a set of times the desk should be triggered to raise and writes this to the crontab. For example:
 
-```
+```cron
 # Desk Actions
 59 9 6 6 1 python /home/pi/autodesk/desk_trigger.py
 29 13 6 6 1 python /home/pi/autodesk/desk_trigger.py

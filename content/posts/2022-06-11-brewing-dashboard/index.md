@@ -1,12 +1,9 @@
 ---
-layout: post
-title:  "Building a homebrew monitoring dashboard with Grafana + iSpindel"
-date:   2022-06-11 12:00:00 +1000
+title: "Building a homebrew monitoring dashboard with Grafana + iSpindel"
+date: 2022-06-11T12:00:00+10:00
 ---
 
-![Alt text for broken image link](/assets/2022-06-11_dashboard.png)
-
-<br/>
+![Dashboard](2022-06-11_dashboard.png)
 
 I wanted a better way to track how my homebrews were going. In any brew, the most important metric to keep an eye on is the specific gravity - a measure of density. This will tell you where in the fermentation you're at, how much further it has to go, and what the ABV% is. Checking this value periodically, will let you work out how quickly your brew is fermenting, and when might be a good time to add extra hops, and when it's ready to bottle.
 
@@ -14,9 +11,7 @@ The analog way to do this is with a hydrometer. Take a small sample of your beer
 
 So go digital. There's a few electronic hydrometers for beer brewing that all work on the same basic principle - you float a small water-tight device in your brew while it's fermenting, and it periodically takes measurements and sends them off to a server for you to do whatever you want with. Some of these can be quite expensive and will tend to lock you into a closed-source ecosystem. Fortunately there's an excellent open-source alternative in the [iSpindel](https://www.ispindel.de/docs/README_en.html).
 
-{:refdef: style="text-align: center;"}
-![iSpindel](/assets/2022-06-11_ispindel.png)
-{: refdef}
+![iSpindel](2022-06-11_ispindel.png)
 
 This is an entirely open-source design that you can assemble yourself at a fraction of the cost. It uses an ESP8266 and a couple of sensors to measure temperature and specific gravity of whatever it's floating in. The density is calculated by measuring the angle that the iSpindel is floating at. In denser wort at the start of fermentation, it will float more horizontally, and then as the sugars are fermented, and the density of the brew drops, it will float more vertically. Measuring this angle will let us calculate the specific gravity, and the change in specific gravity will in turn lets us work out the ABV%.
 
@@ -30,7 +25,8 @@ In terms of actual server set up, this was pretty straight forward, I just follo
 For influxdb, I [added an admin user](https://docs.influxdata.com/influxdb/v1.8/administration/authentication_and_authorization/#user-management-commands), and updated the config to require auth:
 
 `/etc/influxdb/influxdb.conf`
-```
+
+```ini
 [http]
 enabled = true
 bind-address = ":8086"
@@ -47,7 +43,8 @@ ping-auth-enabled = true
 And for Grafana, there were a few changes I made on the grafana config to support running on my domain with ssl:
 
 `/etc/grafana/grafana.ini`
-```
+
+```ini
 [server]
 protocol = https
 http_port = 3000
@@ -58,9 +55,10 @@ cert_key = /path/to/key.pem
 ```
 
 # iSpindel config
+
 On the iSpindel, I configured the following settings in the captive portal configuration screen:
 
-```
+```text
 Service Type: InfluxDB
 Server Address: <my domain>
 Server Port: 8086
@@ -72,19 +70,19 @@ Password: <password set for inluxdb admin>
 Now, whenever the iSpindel runs, it will send its data to my server and it will be stored in the `ispindel` database in influxdb.
 
 # Dashboard setup
+
 Setting up a dashboard involves configuring a new data source to point to the influxdb at `localhost:8086`. Once this is set up, I wrote `InfluxQL` queries to aggregate each of the metrics that the iSpindel reports into individual dashboard panels. For example, working out the ABV% using the current specific gravity and the starting specific gravity (set up as a dashboard variable):
 
-```
+```sql
 SELECT abs($sg - mean("gravity"))*1.3125
 FROM "measurements"
 WHERE $timeFilter
 GROUP BY time(30m) fill(null)
 ```
 
- And then configuring as a `Stat` panel:
- {:refdef: style="text-align: center;"}
- ![iSpindel](/assets/2022-06-11_abv.png)
- {: refdef}
+And then configuring as a `Stat` panel:
+
+![ABV Panel](2022-06-11_abv.png)
 
 
 # To Do

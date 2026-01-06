@@ -1,0 +1,7 @@
+baseURL = 'https://lucashadfield.github.io/'
+languageCode = 'en-us'
+title = 'Lucas Hadfield'
+theme = 'ananke'
+
+[params]
+mainSections = ['posts']
