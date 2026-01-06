@@ -2,6 +2,8 @@
 title: "Syncing local python packages to Google Colab"
 date: 2021-10-23
 featured_image: /images/featured.png
+cover_dimming_class: "bg-black-0"
+omit_header_text: true
 ---
 
 This post goes through how to set up a one-way sync of a local python package to a Google Colab instance using `cloudflared`, `lsyncd` and some jupyter `magic`.
@@ -20,20 +22,20 @@ You will need to install `cloudflared` and `lsyncd` on your **local** machine.
 
 1. Install `cloudflared` and `lsyncd`:
 
-   ```
+```bash
 sudo apt-get install cloudflared lsyncd
-   ```
+```
 
     Refer to the project github pages for alternative installation options.
 
 2. Next add this to your `~/.ssh/config`
-   ```shell
-   Host *.trycloudflare.com
-       HostName %h
-       User root
-       Port 22
-       ProxyCommand /usr/local/bin/cloudflared access ssh --hostname %h
-   ```
+```
+Host *.trycloudflare.com
+    HostName %h
+    User root
+    Port 22
+    ProxyCommand /usr/local/bin/cloudflared access ssh --hostname %h
+```
 Replace the `/usr/local/bin/cloudflared` with the absolute path to `cloudflared` if installed elsewhere.
 
 # On each notebook run
@@ -41,45 +43,47 @@ Each time you run a notebook, you will need to set up cloudflared on that machin
 
 1. In your **notebook**, simply run:
 
-    ```python
-   !pip install colab_ssh --upgrade
+```python
+!pip install colab_ssh --upgrade
 
-   from colab_ssh import launch_ssh_cloudflared
-   launch_ssh_cloudflared(password='<SSH_PASSWORD_HERE>')
-    ```
+from colab_ssh import launch_ssh_cloudflared
+launch_ssh_cloudflared(password='<SSH_PASSWORD_HERE>')
+```
 
     This will return an ssh command like this:
 
-   ```
-   ssh <CLOUDFLARE_PREFIX>.trycloudflare.com
-   ```
+```bash
+ssh <CLOUDFLARE_PREFIX>.trycloudflare.com
+```
 
 2. Next, you'll want to add your ssh key to the remote `~/.ssh/authorized_keys`. From your **local**, run:
-    ```
-   ssh-copy-id <CLOUDFLARE_PREFIX>.trycloudflare.com
-    ```
+```bash
+ssh-copy-id <CLOUDFLARE_PREFIX>.trycloudflare.com
+```
     You should now be able to ssh into the colab instance without a password.
 
 3. Now we can start up lsyncd. You need to specify the source and target directories. From your **local**, run:
-    ```
-   lsyncd -nodaemon -delay 1 -rsyncssh <SOURCE_DIR> <CLOUDFLARE_PREFIX>.trycloudflare.com /<PACKAGE_NAME>
-    ```
-    For example:
-    ```
-   lsyncd -nodaemon -delay 1 -rsyncssh /home/lucas/repos/demo_package training-eggs-others-criminal.trycloudflare.com /demo_package
-   ```
+```bash
+lsyncd -nodaemon -delay 1 -rsyncssh <SOURCE_DIR> <CLOUDFLARE_PREFIX>.trycloudflare.com /<PACKAGE_NAME>
+```
+
+For example:
+
+```bash
+lsyncd -nodaemon -delay 1 -rsyncssh /home/lucas/repos/demo_package training-eggs-others-criminal.trycloudflare.com /demo_package
+```
 
 
 4. Finally, back in the **notebook**, run:
 
-    ```python
-   import sys
-   sys.path.insert(0, '/<PACKAGE_NAME>')
+```python
+import sys
+sys.path.insert(0, '/<PACKAGE_NAME>')
 
-   %load_ext autoreload
-   %autoreload 2
+%load_ext autoreload
+%autoreload 2
 
-   import <PACKAGE_NAME>
-    ```
+import <PACKAGE_NAME>
+```
 When you import your package into the notebook, it will be pointing at the synced directory.
 Whenever you make changes locally, they are synced to colab, and when you next run a cell, colab will reload the package with all the updates.

@@ -24,6 +24,8 @@ This example is focusing on using a python package but that&rsquo;s not a requir
 
 
 
+  
+
     
 
     
@@ -51,13 +53,13 @@ This example is focusing on using a python package but that&rsquo;s not a requir
   <meta itemprop="description" content="This post goes through how to set up a one-way sync of a local python package to a Google Colab instance using cloudflared, lsyncd and some jupyter magic. This allows you to work on a package locally in your IDE of choice and have it automatically stay in sync with the version imported into your notebook. Within a couple of seconds of making a change locally, your changes are auto-reloaded into your running notebook without having to re-import anything. This example is focusing on using a python package but that’s not a requirement. Ultimately we’re just syncing a local directory to a remote one so this could be used in various ways, eg. syncing config files that you want your notebook code to pick up.">
   <meta itemprop="datePublished" content="2021-10-23T00:00:00+00:00">
   <meta itemprop="dateModified" content="2021-10-23T00:00:00+00:00">
-  <meta itemprop="wordCount" content="414">
+  <meta itemprop="wordCount" content="412">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Syncing local python packages to Google Colab">
   <meta name="twitter:description" content="This post goes through how to set up a one-way sync of a local python package to a Google Colab instance using cloudflared, lsyncd and some jupyter magic. This allows you to work on a package locally in your IDE of choice and have it automatically stay in sync with the version imported into your notebook. Within a couple of seconds of making a change locally, your changes are auto-reloaded into your running notebook without having to re-import anything. This example is focusing on using a python package but that’s not a requirement. Ultimately we’re just syncing a local directory to a remote one so this could be used in various ways, eg. syncing config files that you want your notebook code to pick up.">
 
 	
-  </head><body class="ma0 avenir bg-near-white development">
+  </head><body class="ma0 sans-serif bg-near-white development">
 
     
    
@@ -67,7 +69,7 @@ This example is focusing on using a python package but that&rsquo;s not a requir
   
   
   <header class="cover bg-center" style="background-image: url('http://localhost:1313/images/featured.png');">
-    <div class="bg-black-60">
+    <div class="bg-black-0">
       <nav class="pv3 ph3 ph4-ns" role="navigation">
   <div class="flex-l justify-between items-center center">
     <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
@@ -103,9 +105,6 @@ This example is focusing on using a python package but that&rsquo;s not a requir
 
       <div class="tc-l pv6 ph3 ph4-ns">
         
-          <div class="f2 f1-l fw2 white-90 mb0 lh-title">Syncing local python packages to Google Colab</div>
-          
-        
       </div>
     </div>
   </header>
@@ -131,7 +130,7 @@ This example is focusing on using a python package but that&rsquo;s not a requir
       
       
     </header>
-    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><p>This post goes through how to set up a one-way sync of a local python package to a Google Colab instance using <code>cloudflared</code>, <code>lsyncd</code> and some jupyter <code>magic</code>.
+    <div class="nested-copy-line-height lh-copy sans-serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><p>This post goes through how to set up a one-way sync of a local python package to a Google Colab instance using <code>cloudflared</code>, <code>lsyncd</code> and some jupyter <code>magic</code>.
 This allows you to work on a package locally in your IDE of choice and have it automatically stay in sync with the version imported into your notebook.
 Within a couple of seconds of making a change locally, your changes are auto-reloaded into your running notebook without having to re-import anything.
 This example is focusing on using a python package but that&rsquo;s not a requirement. Ultimately we&rsquo;re just syncing a local directory to a remote one so this could be used in various ways, eg. syncing config files that you want your notebook code to pick up.</p>
@@ -145,17 +144,15 @@ This example is focusing on using a python package but that&rsquo;s not a requir
 <li><a href="https://github.com/axkibe/lsyncd">lsyncd</a> is used to detect local file changes and sync them to the target using rsync (in this case with rsyncssh)</li>
 </ul>
 <ol>
-<li>
-<p>Install <code>cloudflared</code> and <code>lsyncd</code>:</p>
-<pre tabindex="0"><code></code></pre></li>
+<li>Install <code>cloudflared</code> and <code>lsyncd</code>:</li>
 </ol>
-<p>sudo apt-get install cloudflared lsyncd</p>
-<pre tabindex="0"><code>
- Refer to the project github pages for alternative installation options.
-
-2. Next add this to your `~/.ssh/config`
-```shell
-Host *.trycloudflare.com
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt-get install cloudflared lsyncd
+</span></span></code></pre></div><pre><code>Refer to the project github pages for alternative installation options.
+</code></pre>
+<ol start="2">
+<li>Next add this to your <code>~/.ssh/config</code></li>
+</ol>
+<pre tabindex="0"><code>Host *.trycloudflare.com
     HostName %h
     User root
     Port 22
@@ -164,28 +161,30 @@ Host *.trycloudflare.com
 <h1 id="on-each-notebook-run">On each notebook run</h1>
 <p>Each time you run a notebook, you will need to set up cloudflared on that machine. Thankfully, <a href="https://github.com/WassimBenzarti/colab-ssh">colab-ssh</a> is a package that handles all this for you.</p>
 <ol>
-<li>
-<p>In your <strong>notebook</strong>, simply run:</p>
+<li>In your <strong>notebook</strong>, simply run:</li>
+</ol>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>pip install colab_ssh <span style="color:#f92672">--</span>upgrade
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> colab_ssh <span style="color:#f92672">import</span> launch_ssh_cloudflared
 </span></span><span style="display:flex;"><span>launch_ssh_cloudflared(password<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;&lt;SSH_PASSWORD_HERE&gt;&#39;</span>)
-</span></span></code></pre></div><p>This will return an ssh command like this:</p>
-<pre tabindex="0"><code>ssh &lt;CLOUDFLARE_PREFIX&gt;.trycloudflare.com
-</code></pre></li>
-<li>
-<p>Next, you&rsquo;ll want to add your ssh key to the remote <code>~/.ssh/authorized_keys</code>. From your <strong>local</strong>, run:</p>
-<pre tabindex="0"><code>ssh-copy-id &lt;CLOUDFLARE_PREFIX&gt;.trycloudflare.com
-</code></pre><p>You should now be able to ssh into the colab instance without a password.</p>
-</li>
-<li>
-<p>Now we can start up lsyncd. You need to specify the source and target directories. From your <strong>local</strong>, run:</p>
-<pre tabindex="0"><code>lsyncd -nodaemon -delay 1 -rsyncssh &lt;SOURCE_DIR&gt; &lt;CLOUDFLARE_PREFIX&gt;.trycloudflare.com /&lt;PACKAGE_NAME&gt;
-</code></pre><p>For example:</p>
-<pre tabindex="0"><code>lsyncd -nodaemon -delay 1 -rsyncssh /home/lucas/repos/demo_package training-eggs-others-criminal.trycloudflare.com /demo_package
-</code></pre></li>
-<li>
-<p>Finally, back in the <strong>notebook</strong>, run:</p>
+</span></span></code></pre></div><pre><code>This will return an ssh command like this:
+</code></pre>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh &lt;CLOUDFLARE_PREFIX&gt;.trycloudflare.com
+</span></span></code></pre></div><ol start="2">
+<li>Next, you&rsquo;ll want to add your ssh key to the remote <code>~/.ssh/authorized_keys</code>. From your <strong>local</strong>, run:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh-copy-id &lt;CLOUDFLARE_PREFIX&gt;.trycloudflare.com
+</span></span></code></pre></div><pre><code>You should now be able to ssh into the colab instance without a password.
+</code></pre>
+<ol start="3">
+<li>Now we can start up lsyncd. You need to specify the source and target directories. From your <strong>local</strong>, run:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>lsyncd -nodaemon -delay <span style="color:#ae81ff">1</span> -rsyncssh &lt;SOURCE_DIR&gt; &lt;CLOUDFLARE_PREFIX&gt;.trycloudflare.com /&lt;PACKAGE_NAME&gt;
+</span></span></code></pre></div><p>For example:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>lsyncd -nodaemon -delay <span style="color:#ae81ff">1</span> -rsyncssh /home/lucas/repos/demo_package training-eggs-others-criminal.trycloudflare.com /demo_package
+</span></span></code></pre></div><ol start="4">
+<li>Finally, back in the <strong>notebook</strong>, run:</li>
+</ol>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> sys
 </span></span><span style="display:flex;"><span>sys<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>insert(<span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#39;/&lt;PACKAGE_NAME&gt;&#39;</span>)
 </span></span><span style="display:flex;"><span>
@@ -193,9 +192,7 @@ Host *.trycloudflare.com
 </span></span><span style="display:flex;"><span><span style="color:#f92672">%</span>autoreload <span style="color:#ae81ff">2</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#f92672">&lt;</span>PACKAGE_NAME<span style="color:#f92672">&gt;</span>
-</span></span></code></pre></div></li>
-</ol>
-<p>When you import your package into the notebook, it will be pointing at the synced directory.
+</span></span></code></pre></div><p>When you import your package into the notebook, it will be pointing at the synced directory.
 Whenever you make changes locally, they are synced to colab, and when you next run a cell, colab will reload the package with all the updates.</p>
 <ul class="pa0">
   

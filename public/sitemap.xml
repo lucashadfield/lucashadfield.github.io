@@ -2,25 +2,25 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/</loc>
+    <loc>https://blog.hadfield.dev/</loc>
     <lastmod>2022-06-11T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/2022-06-11-brewing-dashboard/</loc>
+    <loc>https://blog.hadfield.dev/posts/2022-06-11-brewing-dashboard/</loc>
     <lastmod>2022-06-11T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/</loc>
+    <loc>https://blog.hadfield.dev/posts/</loc>
     <lastmod>2022-06-11T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/2022-06-05-autodesk/</loc>
+    <loc>https://blog.hadfield.dev/posts/2022-06-05-autodesk/</loc>
     <lastmod>2022-06-05T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/2021-10-23-colab-sync/</loc>
+    <loc>https://blog.hadfield.dev/posts/2021-10-23-colab-sync/</loc>
     <lastmod>2021-10-23T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/about/</loc>
+    <loc>https://blog.hadfield.dev/about/</loc>
   </url><url>
-    <loc>http://localhost:1313/categories/</loc>
+    <loc>https://blog.hadfield.dev/categories/</loc>
   </url><url>
-    <loc>http://localhost:1313/tags/</loc>
+    <loc>https://blog.hadfield.dev/tags/</loc>
   </url>
 </urlset>

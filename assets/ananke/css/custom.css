@@ -1,0 +1,30 @@
+/* Custom Tachyons extension - 0% opacity */
+.bg-black-0 {
+  background-color: transparent;
+}
+
+/* Background color */
+.bg-near-white {
+  background-color: #fafaf9;
+}
+
+/* Hide hero title text */
+.cover .tc-l .lh-title {
+  display: none;
+}
+
+/* Smaller body text */
+.nested-copy-line-height {
+  font-size: 0.95rem;
+}
+
+/* Smaller headings */
+article h1 {
+  font-size: 1.75rem;
+}
+
+article h2 {
+  font-size: 1.4rem;
+}
+
+

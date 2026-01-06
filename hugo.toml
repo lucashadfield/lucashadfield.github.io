@@ -10,6 +10,17 @@ title = "blog.hadfield.dev"
   featured_image = "/images/featured.png"
   site_logo = ""
   description = ""
+  body_classes = "sans-serif bg-near-white"
+  post_content_classes = "sans-serif"
+  cover_dimming_class = "bg-black-0"
+  omit_header_text = true
+  custom_css = ["custom.css"]
+
+[markup]
+  [markup.highlight]
+    style = "monokai"
+    lineNos = false
+    noClasses = true
 
 [params.social]
   github = "lucashadfield"

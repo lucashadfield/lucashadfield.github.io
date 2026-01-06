@@ -2,6 +2,8 @@
 title: "Hacking a standing desk to raise for meetings"
 date: 2022-06-05
 featured_image: /images/featured.png
+cover_dimming_class: "bg-black-0"
+omit_header_text: true
 ---
 
 Inspired by [this post](https://medium.com/@davidkongfilm/how-i-hacked-my-standing-desk-with-a-raspberry-pi-a50ed14c7f6f) and noticing that my standing desk seemed to have the same control panel, I wanted to do something similar. One thing I wanted to change though is when the desk should be triggered to raise. In that post the author added a random interval of 45 to 60 minutes. Instead I wanted to stand only for my meetings. I've found that I can't stand when I'm actually trying to get focused work done, and having my desk randomly raise and break my concentration when I didn't expect it to did not sound appealing.
@@ -26,7 +28,7 @@ This was similar to the original post, I want to be able to programmatically rai
 On the raspberry pi, I could then easily trigger the desk with
 
 `desk_trigger.py`
-```
+```python
 import RPi.GPIO as GPIO
 from time import sleep
 
@@ -54,7 +56,7 @@ The basic logic is:
 
 Every day, cron triggers `main.py` which generates a set of times the desk should be triggered to raise and writes this to the crontab. For example:
 
-```
+```bash
 # Desk Actions
 59 9 6 6 1 python /home/pi/autodesk/desk_trigger.py
 29 13 6 6 1 python /home/pi/autodesk/desk_trigger.py

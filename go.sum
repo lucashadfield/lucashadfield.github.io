@@ -2,3 +2,5 @@ github.com/theNewDynamic/gohugo-theme-ananke v0.0.0-20241018002841-8e1a6dc21313 
 github.com/theNewDynamic/gohugo-theme-ananke v0.0.0-20241018002841-8e1a6dc21313/go.mod h1:yY14BLqqh5G61rO81YcJKMHY1rClY5iIiUK+K2JKSUM=
 github.com/theNewDynamic/gohugo-theme-ananke v0.0.0-20241026085444-ee9405c67f4b h1:ibseE2LjtuWVNqd0UFrRc9JYyoAr/KVR6dar3oU2Z3c=
 github.com/theNewDynamic/gohugo-theme-ananke v0.0.0-20241026085444-ee9405c67f4b/go.mod h1:vY03XRcTlS9jhJG4iVg0hqQxGOY9q78P6Y1xWATPQuQ=
+github.com/theNewDynamic/gohugo-theme-ananke v2.6.7+incompatible h1:7c+NVmojLSbkk3F0GjCvEgWRI8oZh++vtR9VbNZJuMY=
+github.com/theNewDynamic/gohugo-theme-ananke v2.6.7+incompatible/go.mod h1:RlzLLao82tupbQFWEZtV9ibVqr9+2WYw31sCghz3n3Y=

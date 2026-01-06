@@ -2,6 +2,8 @@
 title: "Building a homebrew monitoring dashboard with Grafana + iSpindel"
 date: 2022-06-11
 featured_image: /images/featured.png
+cover_dimming_class: "bg-black-0"
+omit_header_text: true
 ---
 
 ![Dashboard](2022-06-11_dashboard.png)
@@ -26,7 +28,7 @@ In terms of actual server set up, this was pretty straight forward, I just follo
 For influxdb, I [added an admin user](https://docs.influxdata.com/influxdb/v1.8/administration/authentication_and_authorization/#user-management-commands), and updated the config to require auth:
 
 `/etc/influxdb/influxdb.conf`
-```
+```toml
 [http]
 enabled = true
 bind-address = ":8086"
@@ -43,7 +45,7 @@ ping-auth-enabled = true
 And for Grafana, there were a few changes I made on the grafana config to support running on my domain with ssl:
 
 `/etc/grafana/grafana.ini`
-```
+```ini
 [server]
 protocol = https
 http_port = 3000
@@ -62,7 +64,7 @@ Server Address: <my domain>
 Server Port: 8086
 InfluxDB db: ispindel
 Username: admin
-Password: <password set for inluxdb admin>
+Password: <password set for influxdb admin>
 ```
 
 Now, whenever the iSpindel runs, it will send its data to my server and it will be stored in the `ispindel` database in influxdb.
@@ -70,7 +72,7 @@ Now, whenever the iSpindel runs, it will send its data to my server and it will 
 # Dashboard setup
 Setting up a dashboard involves configuring a new data source to point to the influxdb at `localhost:8086`. Once this is set up, I wrote `InfluxQL` queries to aggregate each of the metrics that the iSpindel reports into individual dashboard panels. For example, working out the ABV% using the current specific gravity and the starting specific gravity (set up as a dashboard variable):
 
-```
+```sql
 SELECT abs($sg - mean("gravity"))*1.3125
 FROM "measurements"
 WHERE $timeFilter

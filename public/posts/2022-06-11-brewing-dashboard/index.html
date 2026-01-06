@@ -22,6 +22,8 @@ I wanted a better way to track how my homebrews were going. In any brew, the mos
 
 
 
+  
+
     
 
     
@@ -55,7 +57,7 @@ I wanted a better way to track how my homebrews were going. In any brew, the mos
   <meta name="twitter:description" content="I wanted a better way to track how my homebrews were going. In any brew, the most important metric to keep an eye on is the specific gravity - a measure of density. This will tell you where in the fermentation you’re at, how much further it has to go, and what the ABV% is. Checking this value periodically, will let you work out how quickly your brew is fermenting, and when might be a good time to add extra hops, and when it’s ready to bottle.">
 
 	
-  </head><body class="ma0 avenir bg-near-white development">
+  </head><body class="ma0 sans-serif bg-near-white development">
 
     
    
@@ -65,7 +67,7 @@ I wanted a better way to track how my homebrews were going. In any brew, the mos
   
   
   <header class="cover bg-center" style="background-image: url('http://localhost:1313/images/featured.png');">
-    <div class="bg-black-60">
+    <div class="bg-black-0">
       <nav class="pv3 ph3 ph4-ns" role="navigation">
   <div class="flex-l justify-between items-center center">
     <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
@@ -101,9 +103,6 @@ I wanted a better way to track how my homebrews were going. In any brew, the mos
 
       <div class="tc-l pv6 ph3 ph4-ns">
         
-          <div class="f2 f1-l fw2 white-90 mb0 lh-title">Building a homebrew monitoring dashboard with Grafana &#43; iSpindel</div>
-          
-        
       </div>
     </div>
   </header>
@@ -129,7 +128,7 @@ I wanted a better way to track how my homebrews were going. In any brew, the mos
       
       
     </header>
-    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><p><img src="2022-06-11_dashboard.png" alt="Dashboard"></p>
+    <div class="nested-copy-line-height lh-copy sans-serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><p><img src="2022-06-11_dashboard.png" alt="Dashboard"></p>
 <p>I wanted a better way to track how my homebrews were going. In any brew, the most important metric to keep an eye on is the specific gravity - a measure of density. This will tell you where in the fermentation you&rsquo;re at, how much further it has to go, and what the ABV% is. Checking this value periodically, will let you work out how quickly your brew is fermenting, and when might be a good time to add extra hops, and when it&rsquo;s ready to bottle.</p>
 <p>The analog way to do this is with a hydrometer. Take a small sample of your beer during fermentation, and take a reading off the hydrometer based on the level it floats at. This is fine if you only plan to do this a few times over the course of the fermentation, but any more frequently and it starts to become impractical and wasteful.</p>
 <p>So go digital. There&rsquo;s a few electronic hydrometers for beer brewing that all work on the same basic principle - you float a small water-tight device in your brew while it&rsquo;s fermenting, and it periodically takes measurements and sends them off to a server for you to do whatever you want with. Some of these can be quite expensive and will tend to lock you into a closed-source ecosystem. Fortunately there&rsquo;s an excellent open-source alternative in the <a href="https://www.ispindel.de/docs/README_en.html">iSpindel</a>.</p>
@@ -141,42 +140,42 @@ I wanted a better way to track how my homebrews were going. In any brew, the mos
 <h1 id="influxdb-config">InfluxDB config</h1>
 <p>For influxdb, I <a href="https://docs.influxdata.com/influxdb/v1.8/administration/authentication_and_authorization/#user-management-commands">added an admin user</a>, and updated the config to require auth:</p>
 <p><code>/etc/influxdb/influxdb.conf</code></p>
-<pre tabindex="0"><code>[http]
-enabled = true
-bind-address = &#34;:8086&#34;
-auth-enabled = true
-log-enabled=true
-write-tracing = false
-pprof-enabled = true
-pprof-auth-enabled = true
-debug-pprof-enabled = true
-ping-auth-enabled = true
-</code></pre><h1 id="grafana-config">Grafana config</h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">http</span>]
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">enabled</span> = <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bind-address</span> = <span style="color:#e6db74">&#34;:8086&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">auth-enabled</span> = <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">log-enabled</span>=<span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">write-tracing</span> = <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">pprof-enabled</span> = <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">pprof-auth-enabled</span> = <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">debug-pprof-enabled</span> = <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">ping-auth-enabled</span> = <span style="color:#66d9ef">true</span>
+</span></span></code></pre></div><h1 id="grafana-config">Grafana config</h1>
 <p>And for Grafana, there were a few changes I made on the grafana config to support running on my domain with ssl:</p>
 <p><code>/etc/grafana/grafana.ini</code></p>
-<pre tabindex="0"><code>[server]
-protocol = https
-http_port = 3000
-domain = my.custom.domain.com
-root_url = https://my.custom.domain.com
-cert_file = /path/to/cert.pem
-cert_key = /path/to/key.pem
-</code></pre><h1 id="ispindel-config">iSpindel config</h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ini" data-lang="ini"><span style="display:flex;"><span><span style="color:#66d9ef">[server]</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">protocol</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">https</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">http_port</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">3000</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">domain</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">my.custom.domain.com</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">root_url</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">https://my.custom.domain.com</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">cert_file</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">/path/to/cert.pem</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">cert_key</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">/path/to/key.pem</span>
+</span></span></code></pre></div><h1 id="ispindel-config">iSpindel config</h1>
 <p>On the iSpindel, I configured the following settings in the captive portal configuration screen:</p>
 <pre tabindex="0"><code>Service Type: InfluxDB
 Server Address: &lt;my domain&gt;
 Server Port: 8086
 InfluxDB db: ispindel
 Username: admin
-Password: &lt;password set for inluxdb admin&gt;
+Password: &lt;password set for influxdb admin&gt;
 </code></pre><p>Now, whenever the iSpindel runs, it will send its data to my server and it will be stored in the <code>ispindel</code> database in influxdb.</p>
 <h1 id="dashboard-setup">Dashboard setup</h1>
 <p>Setting up a dashboard involves configuring a new data source to point to the influxdb at <code>localhost:8086</code>. Once this is set up, I wrote <code>InfluxQL</code> queries to aggregate each of the metrics that the iSpindel reports into individual dashboard panels. For example, working out the ABV% using the current specific gravity and the starting specific gravity (set up as a dashboard variable):</p>
-<pre tabindex="0"><code>SELECT abs($sg - mean(&#34;gravity&#34;))*1.3125
-FROM &#34;measurements&#34;
-WHERE $timeFilter
-GROUP BY time(30m) fill(null)
-</code></pre><p>And then configuring as a <code>Stat</code> panel:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">abs</span>(<span style="color:#960050;background-color:#1e0010">$</span>sg <span style="color:#f92672">-</span> mean(<span style="color:#e6db74">&#34;gravity&#34;</span>))<span style="color:#f92672">*</span><span style="color:#ae81ff">1</span>.<span style="color:#ae81ff">3125</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> <span style="color:#e6db74">&#34;measurements&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">WHERE</span> <span style="color:#960050;background-color:#1e0010">$</span>timeFilter
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> time(<span style="color:#ae81ff">30</span>m) fill(<span style="color:#66d9ef">null</span>)
+</span></span></code></pre></div><p>And then configuring as a <code>Stat</code> panel:
 <img src="2022-06-11_abv.png" alt="ABV Panel"></p>
 <h1 id="to-do">To Do</h1>
 <p>Some updates I want to incorporate in future:</p>
