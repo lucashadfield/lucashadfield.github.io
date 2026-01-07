@@ -5,3 +5,5 @@ theme = 'ananke'
 
 [params]
 mainSections = ['posts']
+post_content_classes = 'sans-serif'
+custom_css = ['custom.css']
